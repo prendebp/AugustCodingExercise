@@ -34,7 +34,6 @@ namespace AugustCodingExercise
                 //defined in web.config-> maxRequestLength:2147483647
             });
 
-
             services.AddControllersWithViews();
             services.AddScoped<IPersonRepository,PersonRepository>();
 
@@ -58,6 +57,7 @@ namespace AugustCodingExercise
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //used with Migrations: app.UseDatabaseErrorPage(); Install-Package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore -Version 3.1.7
             }
             else
             {
@@ -66,11 +66,25 @@ namespace AugustCodingExercise
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
+            var supportedCultures = new[] { "en-US" };
+            var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
+                .AddSupportedCultures(supportedCultures)
+                .AddSupportedUICultures(supportedCultures);
+
+            app.UseRequestLocalization(localizationOptions);
+
             app.UseStaticFiles();
 
-            app.UseRouting();
+            // app.UseCookiePolicy();
 
+            app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
+            // app.UseRequestLocalization();
+            // app.UseCors();
+            // app.UseSession();
+            // app.UseResponseCaching();
 
             app.UseEndpoints(endpoints =>
             {
