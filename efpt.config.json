@@ -1,5 +1,5 @@
 ﻿{
-   "ContextClassName": "AugustCodingDBContext",
+   "ContextClassName": "CalcDBContext",
    "ContextNamespace": null,
    "DefaultDacpacSchema": null,
    "IncludeConnectionString": false,
@@ -17,18 +17,6 @@
       {
          "HasPrimaryKey": true,
          "Name": "[dbo].[DiscountType]"
-      },
-      {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[PayrollRuns]"
-      },
-      {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Person]"
-      },
-      {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[PersonType]"
       }
    ],
    "UseDatabaseNames": true,

@@ -8,11 +8,6 @@ namespace AugustCodingExercise
 {
     public partial class DeductionType
     {
-        public DeductionType()
-        {
-            PayrollRuns = new HashSet<PayrollRuns>();
-        }
-
         [Key]
         [StringLength(10)]
         public string DeductionTypeCode { get; set; }
@@ -27,8 +22,5 @@ namespace AugustCodingExercise
         public decimal? DepAmt { get; set; }
         [Column(TypeName = "numeric(18, 2)")]
         public decimal? SpoAmt { get; set; }
-
-        [InverseProperty("DeductionTypeNavigation")]
-        public virtual ICollection<PayrollRuns> PayrollRuns { get; set; }
     }
 }

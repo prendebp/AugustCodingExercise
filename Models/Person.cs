@@ -8,11 +8,10 @@ namespace AugustCodingExercise
 {
     public partial class Person
     {
-        public Person()
-        {
-            PayrollRuns = new HashSet<PayrollRuns>();
-        }
-
+        [Key]
+        public long PersonId { get; set; }
+        [StringLength(10)]
+        public string PersonCode { get; set; }
         [StringLength(10)]
         public string Honorific { get; set; }
         [StringLength(250)]
@@ -21,15 +20,11 @@ namespace AugustCodingExercise
         public string MiddleName { get; set; }
         [StringLength(250)]
         public string LastName { get; set; }
-        [StringLength(10)]
-        public string PersonCode { get; set; }
-        [Key]
-        public long PersonId { get; set; }
+        [Column(TypeName = "numeric(18, 2)")]
+        public decimal? Salary { get; set; }
 
         [ForeignKey(nameof(PersonCode))]
         [InverseProperty(nameof(PersonType.Person))]
         public virtual PersonType PersonCodeNavigation { get; set; }
-        [InverseProperty("Person")]
-        public virtual ICollection<PayrollRuns> PayrollRuns { get; set; }
     }
 }

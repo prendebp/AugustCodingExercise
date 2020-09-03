@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[PayrollRuns] (
-    [PayrollId]     BIGINT          NOT NULL,
+    [PayrollId]     BIGINT          IDENTITY (1, 1) NOT NULL,
+    [PersonId]      BIGINT          NOT NULL,
     [RunId]         BIGINT          NOT NULL,
     [WeekEnding]    DATETIME        NOT NULL,
-    [PersonId]      BIGINT          NOT NULL,
     [Status]        NVARCHAR (10)   NOT NULL,
     [CheckDate]     DATETIME        NULL,
     [GrossPay]      NUMERIC (18, 2) NULL,
@@ -17,6 +17,10 @@
     CONSTRAINT [FK_PayrollRuns_DiscountType] FOREIGN KEY ([DiscountType]) REFERENCES [dbo].[DiscountType] ([DiscountTypeCode]) ON UPDATE CASCADE,
     CONSTRAINT [FK_PayrollRuns_Person] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([PersonId]) ON UPDATE CASCADE
 );
+
+
+
+
 
 
 

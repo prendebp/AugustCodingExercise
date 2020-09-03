@@ -1,0 +1,88 @@
+﻿@model AugustCodingExercise.PayrollRuns
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>PayrollRuns</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PersonId" class="control-label"></label>
+                <input asp-for="PersonId" class="form-control" />
+                <span asp-validation-for="PersonId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RunId" class="control-label"></label>
+                <input asp-for="RunId" class="form-control" />
+                <span asp-validation-for="RunId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WeekEnding" class="control-label"></label>
+                <input asp-for="WeekEnding" class="form-control" />
+                <span asp-validation-for="WeekEnding" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckDate" class="control-label"></label>
+                <input asp-for="CheckDate" class="form-control"/>
+                <span asp-validation-for="CheckDate" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="GrossPay" class="control-label"></label>
+                <input asp-for="GrossPay" class="form-control" />
+                <span asp-validation-for="GrossPay" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group">
+                <label asp-for="Deduction" class="control-label"></label>
+                <input asp-for="Deduction" class="form-control" />
+                <span asp-validation-for="Deduction" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="DeductionType" class="control-label"></label>
+                <input asp-for="DeductionType" class="form-control" value="@ViewBag.DeductionType"  readonly/>
+                <span asp-validation-for="DeductionType" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="Discount" class="control-label"></label>
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="DiscountType" class="control-label"></label>
+                <input asp-for="DiscountType" class="form-control" value="@ViewBag.DiscountType"  readonly/>
+                <span asp-validation-for="DiscountType" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="NetPay" class="control-label"></label>
+                <input asp-for="NetPay" class="form-control" />
+                <span asp-validation-for="NetPay" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group">
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

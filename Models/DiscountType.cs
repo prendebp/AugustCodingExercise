@@ -8,11 +8,6 @@ namespace AugustCodingExercise
 {
     public partial class DiscountType
     {
-        public DiscountType()
-        {
-            PayrollRuns = new HashSet<PayrollRuns>();
-        }
-
         [Key]
         [StringLength(10)]
         public string DiscountTypeCode { get; set; }
@@ -27,8 +22,5 @@ namespace AugustCodingExercise
         public decimal? DepPercent { get; set; }
         [Column(TypeName = "numeric(9, 5)")]
         public decimal? SpoPercent { get; set; }
-
-        [InverseProperty("DiscountTypeNavigation")]
-        public virtual ICollection<PayrollRuns> PayrollRuns { get; set; }
     }
 }

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AugustCodingExercise.Interfaces;
-using AugustCodingExercise.Repositories;
+//using AugustCodingExercise.Interfaces;
+//using AugustCodingExercise.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,20 +35,38 @@ namespace AugustCodingExercise
             });
 
             services.AddControllersWithViews();
-            services.AddScoped<IPersonRepository,PersonRepository>();
+            services.AddScoped<IDeductionCalc, DeductionCalcService>();
+            services.AddScoped<IDiscountCalc, DiscountCalcService>();
 
-            services.AddDbContext<AugustCodingDBContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+            services.AddDbContext<PeopleDBContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("PeopleConnection"),
                sqlServerOptionsAction: sqlOptions =>
                {
                    sqlOptions.EnableRetryOnFailure(
                        maxRetryCount: 10,
                        maxRetryDelay: TimeSpan.FromSeconds(30),
                        errorNumbersToAdd: null);
-               }
-              // ,
-              // b => b.MigrationsAssembly("AugustCodingExercise")
-               ));
+               }));
+
+            services.AddDbContext<PayrollDBContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("PayrollConnection"),
+               sqlServerOptionsAction: sqlOptions =>
+               {
+                   sqlOptions.EnableRetryOnFailure(
+                       maxRetryCount: 10,
+                       maxRetryDelay: TimeSpan.FromSeconds(30),
+                       errorNumbersToAdd: null);
+               }));
+
+            services.AddDbContext<CalcDBContext>(options =>
+              options.UseSqlServer(Configuration.GetConnectionString("PayrollConnection"),
+              sqlServerOptionsAction: sqlOptions =>
+              {
+                  sqlOptions.EnableRetryOnFailure(
+                      maxRetryCount: 10,
+                      maxRetryDelay: TimeSpan.FromSeconds(30),
+                      errorNumbersToAdd: null);
+              }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

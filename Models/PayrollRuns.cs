@@ -10,10 +10,10 @@ namespace AugustCodingExercise
     {
         [Key]
         public long PayrollId { get; set; }
+        public long PersonId { get; set; }
         public long RunId { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime WeekEnding { get; set; }
-        public long PersonId { get; set; }
         [Required]
         [StringLength(10)]
         public string Status { get; set; }
@@ -32,15 +32,5 @@ namespace AugustCodingExercise
         [Column(TypeName = "numeric(18, 2)")]
         public decimal? NetPay { get; set; }
         public int? Year { get; set; }
-
-        [ForeignKey(nameof(DeductionType))]
-        [InverseProperty("PayrollRuns")]
-        public virtual DeductionType DeductionTypeNavigation { get; set; }
-        [ForeignKey(nameof(DiscountType))]
-        [InverseProperty("PayrollRuns")]
-        public virtual DiscountType DiscountTypeNavigation { get; set; }
-        [ForeignKey(nameof(PersonId))]
-        [InverseProperty("PayrollRuns")]
-        public virtual Person Person { get; set; }
     }
 }

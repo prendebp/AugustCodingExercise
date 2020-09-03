@@ -1,13 +1,16 @@
 ﻿CREATE TABLE [dbo].[Person] (
-    [Honorific]  NVARCHAR (10)  NULL,
-    [FirstName]  NVARCHAR (250) NULL,
-    [MiddleName] NVARCHAR (250) NULL,
-    [LastName]   NVARCHAR (250) NULL,
-    [PersonCode] NVARCHAR (10)  NULL,
-    [PersonId]   BIGINT         IDENTITY (1, 1) NOT NULL,
+    [PersonId]   BIGINT          IDENTITY (1, 1) NOT NULL,
+    [PersonCode] NVARCHAR (10)   NULL,
+    [Honorific]  NVARCHAR (10)   NULL,
+    [FirstName]  NVARCHAR (250)  NULL,
+    [MiddleName] NVARCHAR (250)  NULL,
+    [LastName]   NVARCHAR (250)  NULL,
+    [Salary]     NUMERIC (18, 2) NULL,
     CONSTRAINT [PK_Person] PRIMARY KEY CLUSTERED ([PersonId] ASC),
     CONSTRAINT [FK_Person_PersonType] FOREIGN KEY ([PersonCode]) REFERENCES [dbo].[PersonType] ([PersonCode]) ON UPDATE CASCADE
 );
+
+
 
 
 
