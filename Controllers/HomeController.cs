@@ -27,7 +27,7 @@ namespace AugustCodingExercise.Controllers
             string output = string.Empty;
             foreach (Person item in result)
             {
-                output = item.FirstName.ToString() + " " + item.MiddleName.ToString() + " " + item.LastName.ToString();
+                output = item.FirstName.ToString() + " " + ((item?.MiddleName?.ToString())??"") + " " + item.LastName.ToString();
 
             }
             return Content(output);

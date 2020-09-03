@@ -12,12 +12,28 @@
    "Tables": [
       {
          "HasPrimaryKey": true,
+         "Name": "[dbo].[DeductionType]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[DiscountType]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[PayrollRuns]"
+      },
+      {
+         "HasPrimaryKey": true,
          "Name": "[dbo].[Person]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[PersonType]"
       }
    ],
-   "UseDatabaseNames": false,
+   "UseDatabaseNames": true,
    "UseDbContextSplitting": false,
-   "UseFluentApiOnly": true,
+   "UseFluentApiOnly": false,
    "UseHandleBars": false,
    "UseInflector": false,
    "UseLegacyPluralizer": false,
