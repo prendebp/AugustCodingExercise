@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DomainModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +50,7 @@ namespace AugustCodingExercise
             //TODO: make this data-driven via a new Defaults table in the database. Add a new C# SetDefaultData Service
             ViewData["Salary"] = "2000.00";
 
-            ViewData["PersonCode"] = new SelectList(_context.PersonType, "PersonCode", "PersonCode");
+            ViewData["PersonCode"] = new SelectList(_context.PersonType, "PersonCode", "TypeDescription");
             
             return View();
         }

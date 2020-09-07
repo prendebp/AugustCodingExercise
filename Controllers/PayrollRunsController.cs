@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusLogicLayer;
+using DomainModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +16,12 @@ namespace AugustCodingExercise
         private readonly PeopleDBContext _peopleContext;
         private readonly IDeductionCalc _deductionCalcService;
         private readonly IDiscountCalc _discountCalcService;
+        private readonly CalcDBContext _calcContext;
 
-        public PayrollRunsController(PayrollDBContext context, PeopleDBContext peopleContext, IDeductionCalc deductionCalcService, IDiscountCalc discountCalcService)
+        public PayrollRunsController(PayrollDBContext context, PeopleDBContext peopleContext, CalcDBContext calcContext, IDeductionCalc deductionCalcService, IDiscountCalc discountCalcService)
         {
             _context = context;
+            _calcContext = calcContext;
             _peopleContext = peopleContext;
             _deductionCalcService = deductionCalcService;
             _discountCalcService = discountCalcService;
@@ -48,11 +52,19 @@ namespace AugustCodingExercise
         }
 
         // GET: PayrollRuns/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             //TODO: make this data-driven via a new Defaults table in the database. Add a new C# SetDefaultData Service
-            ViewBag.DiscountType = "NAM";
-            ViewBag.DeductionType = "BEN";
+            ViewData["DiscountType"] = "NAM";
+            ViewData["DeductionType"] = "BEN";
+
+            ViewData["PersonId"] = 
+                new SelectList((from s in _peopleContext.Person.ToList()
+                    select new
+                    {
+                        PersonId = s.PersonId,
+                        FullName = s.PersonId + " " + s.FirstName + " " + s.LastName
+                    }), "PersonId","FullName");
 
             return View();
         }
@@ -64,14 +76,18 @@ namespace AugustCodingExercise
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PayrollId,PersonId,RunId,WeekEnding,Status,CheckDate,GrossPay,Deduction,DeductionType,Discount,DiscountType,NetPay,Year")] PayrollRuns payrollRuns)
         {
+            Person p = null;
+
             if (ModelState.IsValid)
             {
-                Person p = await _peopleContext.Person.FindAsync(payrollRuns.PersonId);
+                p = await _peopleContext.Person.FindAsync(payrollRuns.PersonId);
 
                 payrollRuns.GrossPay = p.Salary;
+                List<DeductionType> listOfDeductionTypes = await _calcContext.Set<DeductionType>().ToListAsync();
+                List<DiscountType> listOfDiscountTypes = await _calcContext.Set<DiscountType>().Where<DiscountType>(d => d.DiscountTypeCode == "NAM").ToListAsync();
 
-                decimal? grossDeduction = _deductionCalcService.CalcDeduction(p);
-                decimal? discountAmt = _discountCalcService.CalcDiscount(p, grossDeduction);
+                decimal? grossDeduction = _deductionCalcService.CalcDeduction(p, listOfDeductionTypes);
+                decimal? discountAmt = _discountCalcService.CalcDiscount(p, grossDeduction, listOfDiscountTypes);
                 payrollRuns.Discount = discountAmt;
 
                 decimal? netDeduction = grossDeduction - discountAmt;
@@ -83,6 +99,15 @@ namespace AugustCodingExercise
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["PersonId"] =
+                new SelectList((from s in _peopleContext.Person.ToList()
+                            select new
+                            {
+                                PersonId = s.PersonId,
+                                FullName = s.PersonId + " " + s.FirstName + " " + s.LastName
+                            }), "PersonId", "FullName", p.PersonId);
+
             return View(payrollRuns);
         }
 
