@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AugustCodingExercise.Interfaces;
 using BusLogicLayer;
 using DomainModels;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,11 @@ namespace AugustCodingExercise
         private readonly IDeductionCalc _deductionCalcService;
         private readonly IDiscountCalc _discountCalcService;
         private readonly CalcDBContext _calcContext;
+        private readonly IPersonRepository _personRepo;
 
-        public PayrollRunsController(PayrollDBContext context, PeopleDBContext peopleContext, CalcDBContext calcContext, IDeductionCalc deductionCalcService, IDiscountCalc discountCalcService)
+        public PayrollRunsController(IPersonRepository personRepo, PayrollDBContext context, PeopleDBContext peopleContext, CalcDBContext calcContext, IDeductionCalc deductionCalcService, IDiscountCalc discountCalcService)
         {
+            _personRepo = personRepo;
             _context = context;
             _calcContext = calcContext;
             _peopleContext = peopleContext;
@@ -80,7 +83,7 @@ namespace AugustCodingExercise
 
             if (ModelState.IsValid)
             {
-                p = await _peopleContext.Person.FindAsync(payrollRuns.PersonId);
+                p = await _personRepo.FindPerson(payrollRuns.PersonId);
 
                 payrollRuns.GrossPay = p.Salary;
                 List<DeductionType> listOfDeductionTypes = await _calcContext.Set<DeductionType>().ToListAsync();

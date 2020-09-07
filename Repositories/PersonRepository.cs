@@ -1,25 +1,26 @@
 ﻿
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using AugustCodingExercise.Interfaces;
-//using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AugustCodingExercise.Interfaces;
+using DomainModels;
+using Microsoft.EntityFrameworkCore;
 
-//namespace AugustCodingExercise.Repositories
-//{
-//    public class PersonRepository : IPersonRepository
-//    {
-//        private readonly AugustCodingDBContext _context;
+namespace AugustCodingExercise.Repositories
+{
+    public class PersonRepository : IPersonRepository
+    {
+        private readonly PeopleDBContext _peopleContext;
 
-//        public PersonRepository(AugustCodingDBContext context)
-//        {
-//            _context = context;            
-//        }
+        public PersonRepository(PeopleDBContext peopleContext)
+        {
+            _peopleContext = peopleContext;
+        }
 
-//        public Task<List<Person>> GetPeople()
-//        {
-//            return _context.Person.ToListAsync();
-//        }
-//    }
-//}
+        public async Task<Person> FindPerson(long personId)
+        {
+            return await _peopleContext.Person.FindAsync(personId);
+        }
+    }
+}

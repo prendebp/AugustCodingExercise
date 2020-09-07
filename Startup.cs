@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AugustCodingExercise.Interfaces;
+using AugustCodingExercise.Repositories;
 using BusLogicLayer;
 //using AugustCodingExercise.Interfaces;
 //using AugustCodingExercise.Repositories;
@@ -38,6 +40,7 @@ namespace AugustCodingExercise
             services.AddControllersWithViews();
             services.AddScoped<IDeductionCalc, DeductionCalcService>();
             services.AddScoped<IDiscountCalc, DiscountCalcService>();
+            services.AddTransient<IPersonRepository, PersonRepository>();
 
             services.AddDbContext<PeopleDBContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("PeopleConnection"),
